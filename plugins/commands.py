@@ -8,7 +8,7 @@ from pyrogram.errors import ChatAdminRequired, FloodWait
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from database.ia_filterdb import Media, get_file_details, unpack_new_file_id, get_bad_files
 from database.users_chats_db import db
-from info import CHANNELS, ADMINS, AUTH_CHANNEL, LOG_CHANNEL, PICS, BATCH_FILE_CAPTION, CUSTOM_FILE_CAPTION, SUPPORT_CHAT, PROTECT_CONTENT, REQST_CHANNEL, SUPPORT_CHAT_ID, MAX_B_TN
+from info import CHANNELS, ADMINS, AUTH_CHANNEL, LOG_CHANNEL, PICS, CUSTOM_FILE_CAPTION, SUPPORT_CHAT, PROTECT_CONTENT, MAX_B_TN
 from utils import get_settings, get_size, is_subscribed, save_group_settings, temp
 from database.connections_mdb import active_connection
 import re
@@ -24,14 +24,9 @@ async def start(client, message):
         buttons = [[
                     InlineKeyboardButton('➕ 𝖠𝖽𝖽 𝖬𝖾 𝖳𝗈 𝖸𝗈𝗎𝗋 𝖦𝗋𝗈𝗎𝗉 ➕', url=f"http://t.me/{temp.U_NAME}?startgroup=true")
                 ],[
-                    InlineKeyboardButton('🛡 𝖮𝗐𝗇𝖾𝗋', callback_data="owner_info"),
-                    InlineKeyboardButton('🧩 𝖲𝗎𝗉𝗉𝗈𝗋𝗍 𝖦𝗋𝗈𝗎𝗉', url=f"https://t.me/{SUPPORT_CHAT}")
-                ],[
                     InlineKeyboardButton('ℹ️ 𝖧𝖾𝗅𝗉', callback_data='help'),
                     InlineKeyboardButton('😊 𝖠𝖻𝗈𝗎𝗍', callback_data='about')
-                ],[
-                    InlineKeyboardButton('🔎 𝖨𝗇𝗅𝗂𝗇𝖾 𝖲𝖾𝖺𝗋𝖼𝗁', switch_inline_query_current_chat='')
-                  ]]
+                ]]
         reply_markup = InlineKeyboardMarkup(buttons)
         await message.reply(script.START_TXT.format(message.from_user.mention if message.from_user else message.chat.title, temp.U_NAME, temp.B_NAME), reply_markup=reply_markup)
         await asyncio.sleep(2)
@@ -47,14 +42,9 @@ async def start(client, message):
         buttons = [[
                     InlineKeyboardButton('➕ 𝖠𝖽𝖽 𝖬𝖾 𝖳𝗈 𝖸𝗈𝗎𝗋 𝖦𝗋𝗈𝗎𝗉 ➕', url=f"http://t.me/{temp.U_NAME}?startgroup=true")
                 ],[
-                    InlineKeyboardButton('🛡 𝖮𝗐𝗇𝖾𝗋', callback_data="owner_info"),
-                    InlineKeyboardButton('🧩 𝖲𝗎𝗉𝗉𝗈𝗋𝗍 𝖦𝗋𝗈𝗎𝗉', url=f"https://t.me/{SUPPORT_CHAT}")
-                ],[
                     InlineKeyboardButton('ℹ️ 𝖧𝖾𝗅𝗉', callback_data='help'),
-                    InlineKeyboardButton('😊 𝖠𝖻𝗈𝗎𝗍', callback_data='about'),
-                ],[
-                    InlineKeyboardButton('🔎 𝖨𝗇𝗅𝗂𝗇𝖾 𝖲𝖾𝖺𝗋𝖼𝗁', switch_inline_query_current_chat='')
-                  ]]
+                    InlineKeyboardButton('😊 𝖠𝖻𝗈𝗎𝗍', callback_data='about')
+                ]]
         reply_markup = InlineKeyboardMarkup(buttons)
         await message.reply_photo(
             photo=random.choice(PICS),
@@ -86,7 +76,7 @@ async def start(client, message):
                 btn.append([InlineKeyboardButton("🔄 𝖳𝗋𝗒 𝖠𝗀𝖺𝗂𝗇 🔄", url=f"https://t.me/{temp.U_NAME}?start={message.command[1]}")])
         await client.send_message(
             chat_id=message.from_user.id,
-            text="**Please Join My Updates Channel to use this Bot!**",
+            text="**In Order To Get The File Join Our Update Channel First \nLater Click 𝖳𝗋𝗒 𝖠𝗀𝖺𝗂𝗇..!!**",
             reply_markup=InlineKeyboardMarkup(btn),
             parse_mode=enums.ParseMode.MARKDOWN
             )
@@ -95,15 +85,9 @@ async def start(client, message):
         buttons = [[
                     InlineKeyboardButton('➕ 𝖠𝖽𝖽 𝖬𝖾 𝖳𝗈 𝖸𝗈𝗎𝗋 𝖦𝗋𝗈𝗎𝗉 ➕', url=f"http://t.me/{temp.U_NAME}?startgroup=true")
                 ],[
-                    InlineKeyboardButton('🛡 𝖮𝗐𝗇𝖾𝗋', callback_data="owner_info"),
-                    InlineKeyboardButton('🧩 𝖲𝗎𝗉𝗉𝗈𝗋𝗍 𝖦𝗋𝗈𝗎𝗉', url=f"https://t.me/{SUPPORT_CHAT}")
-                ],[
                     InlineKeyboardButton('ℹ️ 𝖧𝖾𝗅𝗉', callback_data='help'),
                     InlineKeyboardButton('😊 𝖠𝖻𝗈𝗎𝗍', callback_data='about')
-                ],[
-                    InlineKeyboardButton('🔎 𝖨𝗇𝗅𝗂𝗇𝖾 𝖲𝖾𝖺𝗋𝖼𝗁', switch_inline_query_current_chat='')
-                    
-                  ]]
+                ]]
         reply_markup = InlineKeyboardMarkup(buttons)
         await message.reply_photo(
             photo=random.choice(PICS),
@@ -144,103 +128,6 @@ async def start(client, message):
                 reply_markup=InlineKeyboardMarkup( [ [ InlineKeyboardButton('⚔️ 𝖯𝖨𝖱𝖮 𝖴𝖯𝖣𝖠𝖳𝖤𝖲 ⚔️', url=f"https://t.me/piroxbots") ] ] ),
             )
         return
-    
-    if data.split("-", 1)[0] == "BATCH":
-        sts = await message.reply("<b>Please wait...</b>")
-        file_id = data.split("-", 1)[1]
-        msgs = BATCH_FILES.get(file_id)
-        if not msgs:
-            file = await client.download_media(file_id)
-            try: 
-                with open(file) as file_data:
-                    msgs=json.loads(file_data.read())
-            except:
-                await sts.edit("FAILED")
-                return await client.send_message(LOG_CHANNEL, "UNABLE TO OPEN FILE.")
-            os.remove(file)
-            BATCH_FILES[file_id] = msgs
-        for msg in msgs:
-            title = msg.get("title")
-            size=get_size(int(msg.get("size", 0)))
-            f_caption=msg.get("caption", "")
-            if BATCH_FILE_CAPTION:
-                try:
-                    f_caption=BATCH_FILE_CAPTION.format(file_name= '' if title is None else title, file_size='' if size is None else size, file_caption='' if f_caption is None else f_caption)
-                except Exception as e:
-                    logger.exception(e)
-                    f_caption=f_caption
-            if f_caption is None:
-                f_caption = f"{title}"
-            try:
-                await client.send_cached_media(
-                    chat_id=message.from_user.id,
-                    file_id=msg.get("file_id"),
-                    caption=f_caption,
-                    protect_content=msg.get('protect', False),
-                    reply_markup=InlineKeyboardMarkup( [ [ InlineKeyboardButton('⚔️ 𝖯𝖨𝖱𝖮 𝖴𝖯𝖣𝖠𝖳𝖤𝖲 ⚔️', url=f"https://t.me/piroxbots") ] ] ),
-                    
-                )
-            except FloodWait as e:
-                await asyncio.sleep(e.x)
-                logger.warning(f"Floodwait of {e.x} sec.")
-                await client.send_cached_media(
-                    chat_id=message.from_user.id,
-                    file_id=msg.get("file_id"),
-                    caption=f_caption,
-                    protect_content=msg.get('protect', False),
-                    reply_markup=InlineKeyboardMarkup( [ [ InlineKeyboardButton('⚔️ 𝖯𝖨𝖱𝖮 𝖴𝖯𝖣𝖠𝖳𝖤𝖲 ⚔️', url=f"https://t.me/piroxbots") ] ] ),
-                )
-            except Exception as e:
-                logger.warning(e, exc_info=True)
-                continue
-            await asyncio.sleep(1) 
-        await sts.delete()
-        return
-    elif data.split("-", 1)[0] == "DSTORE":
-        sts = await message.reply("<b>Please wait...</b>")
-        b_string = data.split("-", 1)[1]
-        decoded = (base64.urlsafe_b64decode(b_string + "=" * (-len(b_string) % 4))).decode("ascii")
-        try:
-            f_msg_id, l_msg_id, f_chat_id, protect = decoded.split("_", 3)
-        except:
-            f_msg_id, l_msg_id, f_chat_id = decoded.split("_", 2)
-            protect = "/pbatch" if PROTECT_CONTENT else "batch"
-        diff = int(l_msg_id) - int(f_msg_id)
-        async for msg in client.iter_messages(int(f_chat_id), int(l_msg_id), int(f_msg_id)):
-            if msg.media:
-                media = getattr(msg, msg.media.value)
-                if BATCH_FILE_CAPTION:
-                    try:
-                        f_caption=BATCH_FILE_CAPTION.format(file_name=getattr(media, 'file_name', ''), file_size=getattr(media, 'file_size', ''), file_caption=getattr(msg, 'caption', ''))
-                    except Exception as e:
-                        logger.exception(e)
-                        f_caption = getattr(msg, 'caption', '')
-                else:
-                    media = getattr(msg, msg.media.value)
-                    file_name = getattr(media, 'file_name', '')
-                    f_caption = getattr(msg, 'caption', file_name)
-                try:
-                    await msg.copy(message.chat.id, caption=f_caption, protect_content=True if protect == "/pbatch" else False)
-                except FloodWait as e:
-                    await asyncio.sleep(e.x)
-                    await msg.copy(message.chat.id, caption=f_caption, protect_content=True if protect == "/pbatch" else False)
-                except Exception as e:
-                    logger.exception(e)
-                    continue
-            elif msg.empty:
-                continue
-            else:
-                try:
-                    await msg.copy(message.chat.id, protect_content=True if protect == "/pbatch" else False)
-                except FloodWait as e:
-                    await asyncio.sleep(e.x)
-                    await msg.copy(message.chat.id, protect_content=True if protect == "/pbatch" else False)
-                except Exception as e:
-                    logger.exception(e)
-                    continue
-            await asyncio.sleep(1) 
-        return await sts.delete()
-        
 
     files_ = await get_file_details(file_id)           
     if not files_:
@@ -327,52 +214,6 @@ async def log_file(bot, message):
     except Exception as e:
         await message.reply(str(e))
 
-@Client.on_message(filters.command('delete') & filters.user(ADMINS))
-async def delete(bot, message):
-    """Delete file from database"""
-    reply = message.reply_to_message
-    if reply and reply.media:
-        msg = await message.reply("Processing...⏳", quote=True)
-    else:
-        await message.reply('Reply to file with /delete which you want to delete', quote=True)
-        return
-
-    for file_type in ("document", "video", "audio"):
-        media = getattr(reply, file_type, None)
-        if media is not None:
-            break
-    else:
-        await msg.edit('This is not supported file format')
-        return
-    
-    file_id, file_ref = unpack_new_file_id(media.file_id)
-
-    result = await Media.collection.delete_one({
-        '_id': file_id,
-    })
-    if result.deleted_count:
-        await msg.edit('File is successfully deleted from database')
-    else:
-        file_name = re.sub(r"(_|\-|\.|\+)", " ", str(media.file_name))
-        result = await Media.collection.delete_many({
-            'file_name': file_name,
-            'file_size': media.file_size,
-            'mime_type': media.mime_type
-            })
-        if result.deleted_count:
-            await msg.edit('File is successfully deleted from database')
-        else:
-            result = await Media.collection.delete_many({
-                'file_name': media.file_name,
-                'file_size': media.file_size,
-                'mime_type': media.mime_type
-            })
-            if result.deleted_count:
-                await msg.edit('File is successfully deleted from database')
-            else:
-                await msg.edit('File not found in database')
-
-
 @Client.on_message(filters.command('deleteall') & filters.user(ADMINS))
 async def delete_all_index(bot, message):
     await message.reply_text(
@@ -394,13 +235,11 @@ async def delete_all_index(bot, message):
         quote=True,
     )
 
-
 @Client.on_callback_query(filters.regex(r'^autofilter_delete'))
 async def delete_all_index_confirm(bot, message):
     await Media.collection.drop()
     await message.answer('Piracy Is Crime')
     await message.message.edit('Succesfully Deleted All The Indexed Files.')
-
 
 @Client.on_message(filters.command('settings'))
 async def settings(client, message):
@@ -564,80 +403,6 @@ async def settings(client, message):
                 reply_to_message_id=message.id
             )
 
-@Client.on_message(filters.command("send") & filters.user(ADMINS))
-async def send_msg(bot, message):
-    if message.reply_to_message:
-        target_id = message.text
-        command = ["/send"]
-        out = "Users Saved In DB Are:\n\n"
-        for cmd in command:
-            if cmd in target_id:
-                target_id = target_id.replace(cmd, "")
-        success = False
-        try:
-            user = await bot.get_users(target_id)
-            users = await db.get_all_users()
-            async for usr in users:
-                out += f"{usr['id']}"
-                out += '\n'
-            if str(user.id) in str(out):
-                await message.reply_to_message.copy(int(user.id))
-                success = True
-            else:
-                success = False
-            if success:
-                await message.reply_text(f"<b>Your message has been successfully send to {user.mention}.</b>")
-            else:
-                await message.reply_text("<b>This user didn't started this bot yet !</b>")
-        except Exception as e:
-            await message.reply_text(f"<b>Error: {e}</b>")
-    else:
-        await message.reply_text("<b>Use this command as a reply to any message using the target chat id. For eg: /send userid</b>")
-
-@Client.on_message(filters.command('set_template'))
-async def save_template(client, message):
-    sts = await message.reply("Checking template")
-    userid = message.from_user.id if message.from_user else None
-    if not userid:
-        return await message.reply(f"You are anonymous admin. Use /connect {message.chat.id} in PM")
-    chat_type = message.chat.type
-
-    if chat_type == enums.ChatType.PRIVATE:
-        grpid = await active_connection(str(userid))
-        if grpid is not None:
-            grp_id = grpid
-            try:
-                chat = await client.get_chat(grpid)
-                title = chat.title
-            except:
-                await message.reply_text("Make sure I'm present in your group!!", quote=True)
-                return
-        else:
-            await message.reply_text("I'm not connected to any groups!", quote=True)
-            return
-
-    elif chat_type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
-        grp_id = message.chat.id
-        title = message.chat.title
-
-    else:
-        return
-
-    st = await client.get_chat_member(grp_id, userid)
-    if (
-            st.status != enums.ChatMemberStatus.ADMINISTRATOR
-            and st.status != enums.ChatMemberStatus.OWNER
-            and str(userid) not in ADMINS
-    ):
-        return
-
-    if len(message.command) < 2:
-        return await sts.edit("No Input!!")
-    template = message.text.split(" ", 1)[1]
-    await save_group_settings(grp_id, 'template', template)
-    await sts.edit(f"Successfully changed template for {title} to\n\n{template}")
-
-
 @Client.on_message((filters.command(["request", "Request"]) | filters.regex("#request") | filters.regex("#Request")) & filters.group)
 async def requests(bot, message):
     if REQST_CHANNEL is None or SUPPORT_CHAT_ID is None: return # Must add REQST_CHANNEL and SUPPORT_CHAT_ID to use this feature
@@ -715,32 +480,6 @@ async def requests(bot, message):
                 InlineKeyboardButton('📥 𝖵𝗂𝖾𝗐 𝖱𝖾𝗊𝗎𝖾𝗌𝗍 📥', url=f"{reported_post.link}")
               ]]
         await message.reply_text("<b>Your request has been added! Please wait for some time.</b>", reply_markup=InlineKeyboardMarkup(btn))
-
-@Client.on_message(filters.command("usend") & filters.user(ADMINS))
-async def send_msg(bot, message):
-    if message.reply_to_message:
-        target_id = message.text.split(" ", 1)[1]
-        out = "Users Saved In DB Are:\n\n"
-        success = False
-        try:
-            user = await bot.get_users(target_id)
-            users = await db.get_all_users()
-            async for usr in users:
-                out += f"{usr['id']}"
-                out += '\n'
-            if str(user.id) in str(out):
-                await message.reply_to_message.copy(int(user.id))
-                success = True
-            else:
-                success = False
-            if success:
-                await message.reply_text(f"<b>𝖸𝗈𝗎𝗋 𝖬𝖾𝗌𝗌𝖺𝗀𝖾 𝖧𝖺𝗌 𝖲𝗎𝖼𝖼𝖾𝗌𝗌𝖿𝗎𝗅𝗅𝗒 𝖲𝖾𝗇𝗍 𝖳𝗈 {user.mention}.</b>")
-            else:
-                await message.reply_text("<b>An Error Occured !</b>")
-        except Exception as e:
-            await message.reply_text(f"<b>Error :- <code>{e}</code></b>")
-    else:
-        await message.reply_text("<b>Error𝖢𝗈𝗆𝗆𝖺𝗇𝖽 𝖨𝗇𝖼𝗈𝗆𝗉𝗅𝖾𝗍𝖾 !</b>")
         
 @Client.on_message(filters.command("send") & filters.user(ADMINS))
 async def send_msg(bot, message):
@@ -767,32 +506,6 @@ async def send_msg(bot, message):
             await message.reply_text(f"<b>Error: {e}</b>")
     else:
         await message.reply_text("<b>Use this command as a reply to any message using the target chat id. For eg: /send userid</b>")
-
-@Client.on_message(filters.command("gsend") & filters.user(ADMINS))
-async def send_chatmsg(bot, message):
-    if message.reply_to_message:
-        target_id = message.text.split(" ", 1)[1]
-        out = "Chats Saved In DB Are:\n\n"
-        success = False
-        try:
-            chat = await bot.get_chat(target_id)
-            chats = await db.get_all_chats()
-            async for cht in chats:
-                out += f"{cht['id']}"
-                out += '\n'
-            if str(chat.id) in str(out):
-                await message.reply_to_message.copy(int(chat.id))
-                success = True
-            else:
-                success = False
-            if success:
-                await message.reply_text(f"<b>Your message has been successfully send to <code>{chat.id}</code>.</b>")
-            else:
-                await message.reply_text("<b>An Error Occured !</b>")
-        except Exception as e:
-            await message.reply_text(f"<b>Error :- <code>{e}</code></b>")
-    else:
-        await message.reply_text("<b>Error𝖢𝗈𝗆𝗆𝖺𝗇𝖽 𝖨𝗇𝖼𝗈𝗆𝗉𝗅𝖾𝗍𝖾 !</b>")
 
 @Client.on_message(filters.command("deletefiles") & filters.user(ADMINS))
 async def deletemultiplefiles(bot, message):

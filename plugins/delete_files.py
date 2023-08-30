@@ -8,7 +8,6 @@ logger = logging.getLogger(__name__)
 
 media_filter = filters.document | filters.video | filters.audio
 
-
 @Client.on_message(filters.chat(DELETE_CHANNELS) & media_filter)
 async def deletemultiplemedia(bot, message):
     """Delete Multiple files from database"""

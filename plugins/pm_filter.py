@@ -36,7 +36,6 @@ logger.setLevel(logging.ERROR)
 BUTTONS = {}
 SPELL_CHECK = {}
 
-
 @Client.on_message(filters.group & filters.text & filters.incoming)
 async def give_filter(client, message):
     if message.chat.id != SUPPORT_CHAT_ID:
@@ -254,7 +253,6 @@ async def next_page(bot, query):
         pass
     await query.answer()
 
-
 @Client.on_callback_query(filters.regex(r"^spol"))
 async def advantage_spoll_choker(bot, query):
     _, user, movie_, key = query.data.split('#')
@@ -283,7 +281,6 @@ async def advantage_spoll_choker(bot, query):
                 k = await query.message.edit(script.MVE_NT_FND)
                 await asyncio.sleep(10)
                 await k.delete()
-
 
 @Client.on_callback_query()
 async def cb_handler(client: Client, query: CallbackQuery):
@@ -883,7 +880,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
             await query.answer("𝖸𝗈𝗎 𝖽𝗈𝗇'𝗍 𝗁𝖺𝗏𝖾 𝗌𝗎𝖿𝖿𝗂𝖼𝗂𝖾𝗇𝗍 𝗋𝗂𝗀𝗁𝗍𝗌 𝗍𝗈 𝖽𝗈 𝗍𝗁𝗂𝗌 !", show_alert=True)
 
     elif query.data == 'rkbtn':
-        await query.answer("𝖧𝖾𝗒 𝖡𝗋𝗈 😍\n\n🎯 𝖢𝗅𝗂𝖼𝗄 𝖮𝗇 𝖳𝗁𝖾 𝖡𝗎𝗍𝗍𝗈𝗇 𝖻𝖾𝗅𝗈𝗐 𝖳𝗁𝖾 𝖥𝗂𝗅𝖾𝗌 𝖸𝗈𝗎 𝖶𝖺𝗇𝗍 𝖠𝗇𝖽 𝖲𝗍𝖺𝗋𝗍 𝖳𝗁𝖾 𝖡𝗈𝗍 ⬇️", True)
+        await query.answer("𝖧𝖾𝗒 𝖡𝗋𝗈 😍\n\n🎯 𝖢𝗅𝗂𝖼𝗄 𝖮𝗇 𝖳𝗁𝖾 𝖡𝗎𝗍𝗍𝗈𝗇 𝖻𝖾𝗅𝗈𝗐 𝖳𝗁𝖾 𝖥𝗂𝗅𝖾𝗌 𝖸𝗈𝗎 𝖶𝖺𝗇𝗍 𝖠𝗇𝖽 𝖲𝗍𝖺𝗋𝗍 𝖳𝗁𝖾 𝖡𝗈𝗍 ⬇️\n\n\n𝖯𝗈𝗐𝖾𝗋𝖾𝖽 𝖡𝗒 𝖯𝖨𝖱𝖮", True)
 
     elif query.data == 'info':
         await query.answer("𝗥𝗲𝗾𝘂𝗲𝘀𝘁𝘀 𝗙𝗼𝗿𝗺𝗮𝘁𝘀\n\n• 𝖲𝗈𝗅𝗈 2017\n• 𝖣𝗁𝗈𝗈𝗆 3 𝖧𝗂𝗇𝖽𝗂\n• 𝖪𝗎𝗋𝗎𝗉 𝖪𝖺𝗇𝗇𝖺𝖽𝖺\n• 𝖣𝖺𝗋𝗄 𝗌01\n• 𝖲𝗁𝖾 𝖧𝗎𝗅𝗄 720𝗉\n• 𝖥𝗋𝗂𝖾𝗇𝖽𝗌 𝗌03 1080𝗉\n\n‼️𝗗𝗼𝗻𝘁 𝗮𝗱𝗱 𝘄𝗼𝗿𝗱𝘀 & 𝘀𝘆𝗺𝗯𝗼𝗹𝘀  , . - 𝗹𝗶𝗸𝗲 send link movie series 𝗲𝘁𝗰‼️", True)
@@ -895,14 +892,9 @@ async def cb_handler(client: Client, query: CallbackQuery):
         buttons = [[
                     InlineKeyboardButton('➕ 𝖠𝖽𝖽 𝖬𝖾 𝖳𝗈 𝖸𝗈𝗎𝗋 𝖦𝗋𝗈𝗎𝗉 ➕', url=f"http://t.me/{temp.U_NAME}?startgroup=true")
                 ],[
-                    InlineKeyboardButton('🛡 𝖮𝗐𝗇𝖾𝗋', callback_data="owner_info"),
-                    InlineKeyboardButton('🧩 𝖲𝗎𝗉𝗉𝗈𝗋𝗍 𝖦𝗋𝗈𝗎𝗉', url=f"https://t.me/{SUPPORT_CHAT}")
-                ],[
                     InlineKeyboardButton('ℹ️ 𝖧𝖾𝗅𝗉', callback_data='help'),
                     InlineKeyboardButton('😊 𝖠𝖻𝗈𝗎𝗍', callback_data='about'),
-                ],[
-                    InlineKeyboardButton('🔎 𝖨𝗇𝗅𝗂𝗇𝖾 𝖲𝖾𝖺𝗋𝖼𝗁', switch_inline_query_current_chat='')
-                  ]]
+                ]]
         
         reply_markup = InlineKeyboardMarkup(buttons)
         await client.edit_message_media(
@@ -916,52 +908,9 @@ async def cb_handler(client: Client, query: CallbackQuery):
             parse_mode=enums.ParseMode.HTML
         )
         await query.answer('𝖯𝗂𝗋𝖺𝖼𝗒 𝗂𝗌 𝖢𝗋𝗂𝗆𝖾 !')
-
-    elif query.data == "filters":
-        buttons = [[
-            InlineKeyboardButton('✏ 𝖬𝖺𝗇𝗎𝖺𝗅 𝖥𝗂𝗅𝗍𝖾𝗋', callback_data='manuelfilter'),
-            InlineKeyboardButton('📊 𝖠𝗎𝗍𝗈 𝖥𝗂𝗅𝗍𝖾𝗋', callback_data='autofilter')
-        ],[
-            InlineKeyboardButton('👩‍🦯 𝖡𝖺𝖼𝗄', callback_data='help'),
-            InlineKeyboardButton('📈 𝖦𝗅𝗈𝖻𝖺𝗅 𝖥𝗂𝗅𝗍𝖾𝗋', callback_data='global_filters')
-        ]]
-        
-        reply_markup = InlineKeyboardMarkup(buttons)
-        await client.edit_message_media(
-            query.message.chat.id, 
-            query.message.id, 
-            InputMediaPhoto(random.choice(PICS))
-        )
-        await query.message.edit_text(
-            text=script.ALL_FILTERS.format(query.from_user.mention),
-            reply_markup=reply_markup,
-            parse_mode=enums.ParseMode.HTML
-        )
-
-    elif query.data == "global_filters":
-        buttons = [[
-            InlineKeyboardButton('👩‍🦯 𝖡𝖺𝖼𝗄', callback_data='filters')
-        ]]
-        await client.edit_message_media(
-            query.message.chat.id, 
-            query.message.id, 
-            InputMediaPhoto(random.choice(PICS))
-        )
-        reply_markup = InlineKeyboardMarkup(buttons)
-        await query.message.edit_text(
-            text=script.GFILTER_TXT,
-            reply_markup=reply_markup,
-            parse_mode=enums.ParseMode.HTML
-        )
     
     elif query.data == "help":
         buttons = [[
-            InlineKeyboardButton('💼 𝖥𝗂𝗅𝗍𝖾𝗋𝗌 𝖬𝗈𝖽𝖾', callback_data='filters'),
-            InlineKeyboardButton('🗂 𝖥𝗂𝗅𝖾 𝖲𝗍𝗈𝗋𝖾', callback_data='store_file')
-        ], [
-            InlineKeyboardButton('📟 𝖢𝗈𝗇𝗇𝖾𝖼𝗍𝗂𝗈𝗇𝗌', callback_data='coct'),
-            InlineKeyboardButton('⚙ 𝖤𝗑𝗍𝗋𝖺 𝖬𝗈𝖽𝖾𝗌', callback_data='extra')
-        ], [
             InlineKeyboardButton('🏘 𝖧𝗈𝗆𝖾', callback_data='start'),
             InlineKeyboardButton('♻️ Status', callback_data='stats')
         ]]
@@ -1008,115 +957,6 @@ async def cb_handler(client: Client, query: CallbackQuery):
         )
         await query.message.edit_text(
             text=script.SOURCE_TXT,
-            reply_markup=reply_markup,
-            parse_mode=enums.ParseMode.HTML
-        )
-    elif query.data == "manuelfilter":
-        buttons = [[
-            InlineKeyboardButton('👩‍🦯 𝖡𝖺𝖼𝗄', callback_data='filters'),
-            InlineKeyboardButton('⏺ 𝖡𝗎𝗍𝗍𝗈𝗇𝗌', callback_data='button')
-        ]]
-        reply_markup = InlineKeyboardMarkup(buttons)
-        await client.edit_message_media(
-            query.message.chat.id, 
-            query.message.id, 
-            InputMediaPhoto(random.choice(PICS))
-        )
-        await query.message.edit_text(
-            text=script.MANUELFILTER_TXT,
-            reply_markup=reply_markup,
-            parse_mode=enums.ParseMode.HTML
-        )
-    elif query.data == "button":
-        buttons = [[
-            InlineKeyboardButton('👩‍🦯 𝖡𝖺𝖼𝗄', callback_data='manuelfilter')
-        ]]
-        await client.edit_message_media(
-            query.message.chat.id, 
-            query.message.id, 
-            InputMediaPhoto(random.choice(PICS))
-        )
-        reply_markup = InlineKeyboardMarkup(buttons)
-        await query.message.edit_text(
-            text=script.BUTTON_TXT,
-            reply_markup=reply_markup,
-            parse_mode=enums.ParseMode.HTML
-        )
-    elif query.data == "autofilter":
-        buttons = [[
-            InlineKeyboardButton('👩‍🦯 𝖡𝖺𝖼𝗄', callback_data='filters')
-        ]]
-        await client.edit_message_media(
-            query.message.chat.id, 
-            query.message.id, 
-            InputMediaPhoto(random.choice(PICS))
-        )
-        reply_markup = InlineKeyboardMarkup(buttons)
-        await query.message.edit_text(
-            text=script.AUTOFILTER_TXT,
-            reply_markup=reply_markup,
-            parse_mode=enums.ParseMode.HTML
-        )
-    elif query.data == "coct":
-        buttons = [[
-            InlineKeyboardButton('👩‍🦯 𝖡𝖺𝖼𝗄', callback_data='help')
-        ]]
-        await client.edit_message_media(
-            query.message.chat.id, 
-            query.message.id, 
-            InputMediaPhoto(random.choice(PICS))
-        )
-        reply_markup = InlineKeyboardMarkup(buttons)
-        await query.message.edit_text(
-            text=script.CONNECTION_TXT,
-            reply_markup=reply_markup,
-            parse_mode=enums.ParseMode.HTML
-        )
-    elif query.data == "extra":
-        buttons = [[
-            InlineKeyboardButton('👩‍🦯 𝖡𝖺𝖼𝗄', callback_data='help'),
-            InlineKeyboardButton('⚠ 𝖠𝖽𝗆𝗂𝗇', callback_data='admin')
-        ]]
-        await client.edit_message_media(
-            query.message.chat.id, 
-            query.message.id, 
-            InputMediaPhoto(random.choice(PICS))
-        )
-        reply_markup = InlineKeyboardMarkup(buttons)
-        await query.message.edit_text(
-            text=script.EXTRAMOD_TXT,
-            reply_markup=reply_markup,
-            parse_mode=enums.ParseMode.HTML
-        )
-    
-    elif query.data == "store_file":
-        buttons = [[
-            InlineKeyboardButton('👩‍🦯 𝖡𝖺𝖼𝗄', callback_data='help')
-        ]]
-        await client.edit_message_media(
-            query.message.chat.id, 
-            query.message.id, 
-            InputMediaPhoto(random.choice(PICS))
-        )
-        reply_markup = InlineKeyboardMarkup(buttons)
-        await query.message.edit_text(
-            text=script.FILE_STORE_TXT,
-            reply_markup=reply_markup,
-            parse_mode=enums.ParseMode.HTML
-        )
-    
-    elif query.data == "admin":
-        buttons = [[
-            InlineKeyboardButton('👩‍🦯 𝖡𝖺𝖼𝗄', callback_data='extra')
-        ]]
-        await client.edit_message_media(
-            query.message.chat.id, 
-            query.message.id, 
-            InputMediaPhoto(random.choice(PICS))
-        )
-        reply_markup = InlineKeyboardMarkup(buttons)
-        await query.message.edit_text(
-            text=script.ADMIN_TXT,
             reply_markup=reply_markup,
             parse_mode=enums.ParseMode.HTML
         )
@@ -1167,22 +1007,6 @@ async def cb_handler(client: Client, query: CallbackQuery):
             reply_markup=reply_markup,
             parse_mode=enums.ParseMode.HTML
         )
-    elif query.data == "owner_info":
-            btn = [[
-                    InlineKeyboardButton("👩‍🦯 𝖡𝖺𝖼𝗄", callback_data="start"),
-                    InlineKeyboardButton("📞 𝖢𝗈𝗇𝗍𝖺𝖼𝗍", url=f"t.me/rithesh_rkrm_17")
-                  ]]
-            await client.edit_message_media(
-                query.message.chat.id, 
-                query.message.id, 
-                InputMediaPhoto(random.choice(PICS))
-            )
-            reply_markup = InlineKeyboardMarkup(btn)
-            await query.message.edit_text(
-                text=(script.OWNER_INFO),
-                reply_markup=reply_markup,
-                parse_mode=enums.ParseMode.HTML
-            )
 
     elif query.data.startswith("setgs"):
         ident, set_type, status, grp_id = query.data.split("#")
@@ -1256,7 +1080,6 @@ async def cb_handler(client: Client, query: CallbackQuery):
             reply_markup = InlineKeyboardMarkup(buttons)
             await query.message.edit_reply_markup(reply_markup)
     await query.answer('𝖯𝗂𝗋𝖺𝖼𝗒 𝗂𝗌 𝖢𝗋𝗂𝗆𝖾 !')
-
     
 async def auto_filter(client, msg, spoll=False):
     reqstr1 = msg.from_user.id if msg.from_user else 0
@@ -1561,7 +1384,6 @@ async def advantage_spell_chok(client, msg):
             if settings['auto_delete']:
                 await asyncio.sleep(600)
                 await spell_check_del.delete()
-
 
 async def manual_filters(client, message, text=False):
     settings = await get_settings(message.chat.id)

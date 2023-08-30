@@ -12,7 +12,6 @@ from database.connections_mdb import active_connection
 from utils import get_file_id, gfilterparser, split_quotes
 from info import ADMINS
 
-
 @Client.on_message(filters.command(['gfilter', 'addg']) & filters.incoming & filters.user(ADMINS))
 async def addgfilter(client, message):
     args = message.text.html.split(None, 1)
@@ -80,7 +79,6 @@ async def addgfilter(client, message):
         quote=True,
         parse_mode=enums.ParseMode.MARKDOWN
     )
-
 
 @Client.on_message(filters.command(['viewgfilters', 'gfilters']) & filters.incoming & filters.user(ADMINS))
 async def get_all_gfilters(client, message):

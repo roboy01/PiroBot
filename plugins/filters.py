@@ -12,7 +12,6 @@ from database.connections_mdb import active_connection
 from utils import get_file_id, parser, split_quotes
 from info import ADMINS
 
-
 @Client.on_message(filters.command(['filter', 'addf']) & filters.incoming)
 async def addfilter(client, message):
     userid = message.from_user.id if message.from_user else None
@@ -114,7 +113,6 @@ async def addfilter(client, message):
         quote=True,
         parse_mode=enums.ParseMode.MARKDOWN
     )
-
 
 @Client.on_message(filters.command(['viewfilters', 'filters']) & filters.incoming)
 async def get_all(client, message):
@@ -231,7 +229,6 @@ async def deletefilter(client, message):
 
     await delete_filter(message, query, grp_id)
         
-
 @Client.on_message(filters.command('delall') & filters.incoming)
 async def delallconfirm(client, message):
     userid = message.from_user.id if message.from_user else None
@@ -260,7 +257,6 @@ async def delallconfirm(client, message):
     else:
         return
 
-
     st = await client.get_chat_member(grp_id, userid)
     if (st.status == enums.ChatMemberStatus.OWNER) or (str(userid) in ADMINS):
         await message.reply_text(
@@ -271,4 +267,3 @@ async def delallconfirm(client, message):
             ]),
             quote=True
         )
-

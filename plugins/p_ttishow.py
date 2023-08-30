@@ -9,8 +9,6 @@ from Script import script
 from pyrogram.errors import ChatAdminRequired
 import asyncio 
 
-
-
 @Client.on_message(filters.new_chat_members & filters.group)
 async def save_group(bot, message):
     r_j_check = [u.id for u in message.new_chat_members]
@@ -26,7 +24,7 @@ async def save_group(bot, message):
             ]]
             reply_markup=InlineKeyboardMarkup(buttons)
             k = await message.reply(
-                text='<b>CHAT NOT ALLOWED 🐞\n\nMy admins has restricted me from working here ! If you want to know more about it contact support..</b>',
+                text='<b>Chat Not Allowded 🐞\n\nMy admins has restricted me from working here ! If you want to know more about it contact support..</b>',
                 reply_markup=reply_markup,
             )
 
@@ -215,8 +213,6 @@ async def ban_a_user(bot, message):
         await db.ban_user(k.id, reason)
         temp.BANNED_USERS.append(k.id)
         await message.reply(f"Successfully banned {k.mention}")
-
-
     
 @Client.on_message(filters.command('unban') & filters.user(ADMINS))
 async def unban_a_user(bot, message):
@@ -238,7 +234,7 @@ async def unban_a_user(bot, message):
     except PeerIdInvalid:
         return await message.reply("This is an invalid user, make sure ia have met him before.")
     except IndexError:
-        return await message.reply("Thismight be a channel, make sure its a user.")
+        return await message.reply("This might be a channel, make sure its a user.")
     except Exception as e:
         return await message.reply(f'Error - {e}')
     else:
@@ -248,39 +244,3 @@ async def unban_a_user(bot, message):
         await db.remove_ban(k.id)
         temp.BANNED_USERS.remove(k.id)
         await message.reply(f"Successfully unbanned {k.mention}")
-
-
-    
-@Client.on_message(filters.command('users') & filters.user(ADMINS))
-async def list_users(bot, message):
-    raju = await message.reply('Getting List Of Users')
-    users = await db.get_all_users()
-    out = "Users Saved In DB Are:\n\n"
-    async for user in users:
-        out += f"<a href=tg://user?id={user['id']}>{user['name']}</a>"
-        if user['ban_status']['is_banned']:
-            out += '( Banned User )'
-        out += '\n'
-    try:
-        await raju.edit_text(out)
-    except MessageTooLong:
-        with open('users.txt', 'w+') as outfile:
-            outfile.write(out)
-        await message.reply_document('users.txt', caption="List Of Users")
-
-@Client.on_message(filters.command('chats') & filters.user(ADMINS))
-async def list_chats(bot, message):
-    raju = await message.reply('Getting List Of chats')
-    chats = await db.get_all_chats()
-    out = "Chats Saved In DB Are:\n\n"
-    async for chat in chats:
-        out += f"**Title:** `{chat['title']}`\n**- ID:** `{chat['id']}`"
-        if chat['chat_status']['is_disabled']:
-            out += '( Disabled Chat )'
-        out += '\n'
-    try:
-        await raju.edit_text(out)
-    except MessageTooLong:
-        with open('chats.txt', 'w+') as outfile:
-            outfile.write(out)
-        await message.reply_document('chats.txt', caption="List Of Chats")
