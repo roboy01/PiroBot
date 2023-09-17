@@ -15,6 +15,7 @@ from info import SESSION, API_ID, API_HASH, BOT_TOKEN, LOG_STR, LOG_CHANNEL, POR
 from utils import temp
 from typing import Union, Optional, AsyncGenerator
 from pyrogram import types
+from database.users_chats_db import db
 from Script import script 
 from datetime import date, datetime 
 import pytz
@@ -58,6 +59,12 @@ class Bot(Client):
         await app.setup()
         bind_address = "0.0.0.0"
         await web.TCPSite(app, bind_address, PORT).start()
+        chats = await db.get_all_chats()
+        async for chat in chats:
+            try:
+                await self.send_message(chat_id=chat['id'], text="Bot Restarted! 🤖")
+            except:
+                pass
 
     async def stop(self, *args):
         await super().stop()
