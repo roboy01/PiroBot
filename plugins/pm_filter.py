@@ -1251,7 +1251,7 @@ async def advantage_spell_chok(msg):
         k = await msg.reply("I Couldn't Find Anything Related To That. Check Your Spelling")
         await asyncio.sleep(8)
         return await k.delete()
-    temp.GP_SPELL[msg.id] = movielist
+    temp.SPELL_CHECK[msg.id] = movielist
     btn = [[InlineKeyboardButton(text=movie.strip(), callback_data=f"spolling#{user}#{k}",)] for k, movie in enumerate(movielist)]
     btn.append([InlineKeyboardButton(text="Close", callback_data=f'spolling#{user}#close_spellcheck')])
     await msg.reply("I Couldn't Find Anything Related To That..!!\nDid You Mean Any One Of These?", reply_markup=InlineKeyboardMarkup(btn))
