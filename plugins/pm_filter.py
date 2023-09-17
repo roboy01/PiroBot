@@ -971,6 +971,25 @@ async def cb_handler(client: Client, query: CallbackQuery):
             reply_markup = InlineKeyboardMarkup(buttons)
             await query.message.edit_reply_markup(reply_markup)
     await query.answer('𝖯𝗂𝗋𝖺𝖼𝗒 𝗂𝗌 𝖢𝗋𝗂𝗆𝖾 !')
+
+@Client.on_callback_query(filters.create(lambda _, __, query: query.data.startswith("pmspolling")))
+async def pm_spoll_tester(bot, query):
+    _, user, movie_ = query.data.split('#')
+    if movie_ == "close_spellcheck":
+        return await query.message.delete()
+    movies = temp.PM_SPELL.get(str(query.message.reply_to_message.id))
+    if not movies:
+        return await query.answer("𝖸𝗈𝗎 𝖠𝗋𝖾 𝖴𝗌𝗂𝗇𝗀 𝖮𝗅𝖽 𝖬𝖾𝗌𝗌𝖺𝗀𝖾, 𝖱𝖾𝗊𝗎𝖾𝗌𝗍 𝖠𝗀𝖺𝗂𝗇 !", show_alert=True)
+    movie = movies[(int(movie_))]
+    await query.answer('𝖢𝗁𝖾𝖼𝗄𝗂𝗇𝗀 𝖨𝗇 𝖬𝗒 𝖣𝖺𝗍𝖺𝖻𝖺𝗌𝖾...')
+    files, offset, total_results = await get_search_results(movie, offset=0, filter=True)
+    if files:
+        k = (movie, files, offset, total_results)
+        await pm_AutoFilter(bot, query, k)
+    else:
+        k = await query.message.edit('𝖭𝗈 𝖱𝖾𝗌𝗎𝗅𝗍 𝖥𝗈𝗎𝗇𝖽 !')
+        await asyncio.sleep(10)
+        await k.delete()
     
 async def auto_filter(client, msg, spoll=False):
     if not spoll:
@@ -1198,26 +1217,20 @@ async def auto_filter(client, msg, spoll=False):
         await msg.message.delete()
 
 async def advantage_spell_chok(msg):
-    query = re.sub(
-        r"\b(pl(i|e)*?(s|z+|ease|se|ese|(e+)s(e)?)|((send|snd|giv(e)?|gib)(\sme)?)|movie(s)?|new|latest|br((o|u)h?)*|^h(e|a)?(l)*(o)*|mal(ayalam)?|t(h)?amil|file|that|find|und(o)*|kit(t(i|y)?)?o(w)?|thar(u)?(o)*w?|kittum(o)*|aya(k)*(um(o)*)?|full\smovie|any(one)|with\ssubtitle(s)?)",
-        "", msg.text, flags=re.IGNORECASE)  # plis contribute some common words
+    query = re.sub(r"\b(pl(i|e)*?(s|z+|ease|se|ese|(e+)s(e)?)|((send|snd|giv(e)?|gib)(\sme)?)|movie(s)?|new|latest|br((o|u)h?)*|^h(e|a)?(l)*(o)*|mal(ayalam)?|t(h)?amil|file|that|find|und(o)*|kit(t(i|y)?)?o(w)?|thar(u)?(o)*w?|kittum(o)*|aya(k)*(um(o)*)?|full\smovie|any(one)|with\ssubtitle(s)?)","", msg.text, flags=re.IGNORECASE)  # plis contribute some common words
     query = query.strip() + " movie"
     g_s = await search_gagala(query)
     g_s += await search_gagala(msg.text)
     gs_parsed = []
     if not g_s:
-        k = await msg.reply("I couldn't find any movie in that name.")
+        k = await msg.reply("𝖨 𝖢𝗈𝗎𝗅𝖽𝗇'𝗍 𝖥𝗂𝗇𝖽 𝖠𝗇𝗒𝗍𝗁𝗂𝗇𝗀 𝖨𝗇 𝖳𝗁𝖺𝗍 𝖭𝖺𝗆𝖾.")
         await asyncio.sleep(8)
-        await k.delete()
-        return
+        return await k.delete()
     regex = re.compile(r".*(imdb|wikipedia).*", re.IGNORECASE)  # look for imdb / wiki results
     gs = list(filter(regex.match, g_s))
-    gs_parsed = [re.sub(
-        r'\b(\-([a-zA-Z-\s])\-\simdb|(\-\s)?imdb|(\-\s)?wikipedia|\(|\)|\-|reviews|full|all|episode(s)?|film|movie|series)',
-        '', i, flags=re.IGNORECASE) for i in gs]
+    gs_parsed = [re.sub(r'\b(\-([a-zA-Z-\s])\-\simdb|(\-\s)?imdb|(\-\s)?wikipedia|\(|\)|\-|reviews|full|all|episode(s)?|film|movie|series)', '', i, flags=re.IGNORECASE) for i in gs]
     if not gs_parsed:
-        reg = re.compile(r"watch(\s[a-zA-Z0-9_\s\-\(\)]*)*\|.*",
-                         re.IGNORECASE)  # match something like Watch Niram | Amazon Prime
+        reg = re.compile(r"watch(\s[a-zA-Z0-9_\s\-\(\)]*)*\|.*", re.IGNORECASE)  # match something like Watch Niram | Amazon Prime
         for mv in g_s:
             match = reg.match(mv)
             if match:
@@ -1235,20 +1248,13 @@ async def advantage_spell_chok(msg):
     movielist += [(re.sub(r'(\-|\(|\)|_)', '', i, flags=re.IGNORECASE)).strip() for i in gs_parsed]
     movielist = list(dict.fromkeys(movielist))  # removing duplicates
     if not movielist:
-        k = await msg.reply("<b>𝗜 𝗖𝗼𝘂𝗹𝗱𝗻'𝘁 𝗙𝗶𝗻𝗱 𝗔𝗻𝘆𝘁𝗵𝗶𝗻𝗴 𝗥𝗲𝗹𝗮𝘁𝗲𝗱 𝗧𝗼 𝗧𝗵𝗮𝘁. 𝗖𝗵𝗲𝗰𝗸 𝗬𝗼𝘂𝗿 𝗦𝗽𝗲𝗹𝗹𝗶𝗻𝗴</b>")
+        k = await msg.reply("I Couldn't Find Anything Related To That. Check Your Spelling")
         await asyncio.sleep(8)
-        await k.delete()
-        return
-    SPELL_CHECK[msg.id] = movielist
-    btn = [[
-        InlineKeyboardButton(
-            text=movie.strip(),
-            callback_data=f"spolling#{user}#{k}",
-        )
-    ] for k, movie in enumerate(movielist)]
+        return await k.delete()
+    temp.GP_SPELL[msg.id] = movielist
+    btn = [[InlineKeyboardButton(text=movie.strip(), callback_data=f"spolling#{user}#{k}",)] for k, movie in enumerate(movielist)]
     btn.append([InlineKeyboardButton(text="Close", callback_data=f'spolling#{user}#close_spellcheck')])
-    await msg.reply("<b>𝗜 𝗖𝗼𝘂𝗹𝗱𝗻'𝘁 𝗙𝗶𝗻𝗱 𝗔𝗻𝘆𝘁𝗵𝗶𝗻𝗴 𝗥𝗲𝗹𝗮𝘁𝗲𝗱 𝗧𝗼 𝗧𝗵𝗮𝘁..!!\n𝗗𝗶𝗱 𝗬𝗼𝘂 𝗠𝗲𝗮𝗻 𝗔𝗻𝘆 𝗢𝗻𝗲 𝗢𝗳 𝗧𝗵𝗲𝘀𝗲?</b>",
-                    reply_markup=InlineKeyboardMarkup(btn))
+    await msg.reply("I Couldn't Find Anything Related To That..!!\nDid You Mean Any One Of These?", reply_markup=InlineKeyboardMarkup(btn))
 
 async def manual_filters(client, message, text=False):
     settings = await get_settings(message.chat.id)
