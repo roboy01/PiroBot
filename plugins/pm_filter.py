@@ -92,28 +92,34 @@ async def next_page(bot, query):
     settings = await get_settings(query.message.chat.id)
     pre = 'filep' if settings['file_secure'] else 'file'
     temp.FILES_IDS[key] = files
-    if settings['button']:
-        btn = [
-            [
-                InlineKeyboardButton(
-                   text=f"🔖{get_size(file.file_size)}🔮{file.file_name}", callback_data=f'{pre}#{file.file_id}'
-                ),
-            ]
-            for file in files
-        ]
-    else:
-        btn = [
-            [
-                InlineKeyboardButton(
-                    text=f"{file.file_name}", callback_data=f'{pre}#{file.file_id}'
-                ),
-                InlineKeyboardButton(
-                    text=f"{get_size(file.file_size)}",
-                    callback_data=f'{pre}#{file.file_id}',
-                ),
-            ]
-            for file in files
-        ]
+
+    text = ""
+    for file in files:
+        text += f"🔖{get_size(file.file_size)}🔮[{file.file_name}](http://t.me/{temp.U_NAME}?start=PIRO_{file.file_id})\n\n"
+        
+    # if settings['button']:
+    #     btn = [
+    #         [
+    #             InlineKeyboardButton(
+    #                text=f"🔖{get_size(file.file_size)}🔮{file.file_name}", callback_data=f'{pre}#{file.file_id}'
+    #             ),
+    #         ]
+    #         for file in files
+    #     ]
+    # else:
+    #     btn = [
+    #         [
+    #             InlineKeyboardButton(
+    #                 text=f"{file.file_name}", callback_data=f'{pre}#{file.file_id}'
+    #             ),
+    #             InlineKeyboardButton(
+    #                 text=f"{get_size(file.file_size)}",
+    #                 callback_data=f'{pre}#{file.file_id}',
+    #             ),
+    #         ]
+    #         for file in files
+    #     ]
+
     try:
         if settings['auto_delete']:
             btn.insert(0, 
@@ -245,13 +251,18 @@ async def next_page(bot, query):
     btn.insert(2, [
         InlineKeyboardButton("📤 𝖲𝖾𝗇𝖽 𝖠𝗅𝗅 𝖥𝗂𝗅𝖾𝗌 📤", callback_data=f"send_all#{req}#{key}#{pre}")
     ])
+    
+    if not query.message:
+        return await query.answer("Too Old Message!", True)
+
     try:
-        await query.edit_message_reply_markup(
+        await query.message.edit(
+            text,
             reply_markup=InlineKeyboardMarkup(btn)
         )
+        await query.answer()
     except MessageNotModified:
-        pass
-    await query.answer()
+        await query.answer("Oops!")
 
 @Client.on_callback_query(filters.regex(r"^spol"))
 async def advantage_spoll_choker(bot, query):
@@ -1003,30 +1014,34 @@ async def auto_filter(client, msg, spoll=False):
     pre = 'filep' if settings['file_secure'] else 'file'
     req = message.from_user.id if message.from_user else 0
     BUTTONS[key] = search
+
+    text = ""
+    for file in files:
+        text += f"🔖{get_size(file.file_size)}🔮[{file.file_name}](http://t.me/{temp.U_NAME}?start=PIRO_{file.file_id})\n\n"
     
-    if settings["button"]:
-        btn = [
-            [
-                InlineKeyboardButton(
-                    text=f"🔖{get_size(file.file_size)}🔮{file.file_name}", callback_data=f'{pre}#{file.file_id}'
-                ),
-            ]
-            for file in files
-        ]
-    else:
-        btn = [
-            [
-                InlineKeyboardButton(
-                    text=f"{file.file_name}",
-                    callback_data=f'{pre}#{file.file_id}',
-                ),
-                InlineKeyboardButton(
-                    text=f"{get_size(file.file_size)}",
-                    callback_data=f'{pre}#{file.file_id}',
-                ),
-            ]
-            for file in files
-        ]
+    # if settings["button"]:
+    #     btn = [
+    #         [
+    #             InlineKeyboardButton(
+    #                 text=f"🔖{get_size(file.file_size)}🔮{file.file_name}", callback_data=f'{pre}#{file.file_id}'
+    #             ),
+    #         ]
+    #         for file in files
+    #     ]
+    # else:
+    #     btn = [
+    #         [
+    #             InlineKeyboardButton(
+    #                 text=f"{file.file_name}",
+    #                 callback_data=f'{pre}#{file.file_id}',
+    #             ),
+    #             InlineKeyboardButton(
+    #                 text=f"{get_size(file.file_size)}",
+    #                 callback_data=f'{pre}#{file.file_id}',
+    #             ),
+    #         ]
+    #         for file in files
+    #     ]
 
     try:
         if settings['auto_delete']:
@@ -1136,7 +1151,7 @@ async def auto_filter(client, msg, spoll=False):
         cap = f"<b>𝖧𝖾𝗋𝖾 𝖨𝗌 𝖶𝗁𝖺𝗍 𝖨 𝖥𝗈𝗎𝗇𝖽 𝖥𝗈𝗋 𝖸𝗈𝗎𝗋 𝖰𝗎𝖾𝗋𝗒</b>"
     if imdb and imdb.get('poster'):
         try:
-            hehe = await message.reply_photo(photo=imdb.get('poster'), caption=cap[:1024], reply_markup=InlineKeyboardMarkup(btn))
+            hehe = await message.reply_photo(photo=imdb.get('poster'), caption=text, reply_markup=InlineKeyboardMarkup(btn))
             try:
                 if settings['auto_delete']:
                     await asyncio.sleep(600)
@@ -1169,7 +1184,7 @@ async def auto_filter(client, msg, spoll=False):
                     await message.delete()
         except Exception as e:
             logger.exception(e)
-            fek = await message.reply_text(cap, reply_markup=InlineKeyboardMarkup(btn))
+            fek = await message.reply_text(text, reply_markup=InlineKeyboardMarkup(btn))
             try:
                 if settings['auto_delete']:
                     await asyncio.sleep(600)
