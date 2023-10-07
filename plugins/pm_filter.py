@@ -95,12 +95,13 @@ async def next_page(bot, query):
 
     text = ""
     for file in files:
-        text += f"[[{get_size(file.file_size)}]-{file.file_name}](http://t.me/{temp.U_NAME}?start={file.file_id})\n\n"    
+        text += f"🔖[[{get_size(file.file_size)}]{file.file_name}](http://t.me/{temp.U_NAME}?start=PIRO_{file.file_id})\n\n"
+        
     # if settings['button']:
     #     btn = [
     #         [
     #             InlineKeyboardButton(
-    #                text=f"{get_size(file.file_size)}-{file.file_name}", callback_data=f'{pre}#{file.file_id}'
+    #                text=f"🔖{get_size(file.file_size)}🔮{file.file_name}", callback_data=f'{pre}#{file.file_id}'
     #             ),
     #         ]
     #         for file in files
@@ -118,7 +119,9 @@ async def next_page(bot, query):
     #         ]
     #         for file in files
     #     ]
+
     btn = list()
+
     try:
         if settings['auto_delete']:
             btn.insert(0, 
@@ -244,21 +247,25 @@ async def next_page(bot, query):
                         InlineKeyboardButton("𝖭𝖤𝖷𝖳 ▶️", callback_data=f"next_{req}_{key}_{n_offset}")
                     ],
                 )
+    btn.insert(0, [
+        InlineKeyboardButton(f'🎬 {search} 🎬', 'rkbtn')
+    ])
     btn.insert(2, [
         InlineKeyboardButton("📤 𝖲𝖾𝗇𝖽 𝖠𝗅𝗅 𝖥𝗂𝗅𝖾𝗌 📤", callback_data=f"send_all#{req}#{key}#{pre}")
     ])
     
     if not query.message:
-        return await query.answer("𝖸𝗈𝗎 𝖠𝗋𝖾 𝖴𝗌𝗂𝗇𝗀 𝖠𝗇 𝖮𝗅𝖽 𝖱𝖾𝗊𝗎𝖾𝗌𝗍!", True)
+        return await query.answer("Too Old Message!", True)
 
     try:
         await query.message.edit(
             text,
-            reply_markup=InlineKeyboardMarkup(btn)
+            reply_markup=InlineKeyboardMarkup(btn),
+            disable_web_page_preview=True
         )
         await query.answer()
     except MessageNotModified:
-        await query.answer("𝖮𝗈𝗉𝗌! 𝖤𝗋𝗋𝗈𝗋 𝖥𝗈𝗎𝗇𝖽.")
+        await query.answer("Oops!")
 
 @Client.on_callback_query(filters.regex(r"^spol"))
 async def advantage_spoll_choker(bot, query):
@@ -286,7 +293,7 @@ async def advantage_spoll_choker(bot, query):
                 if NO_RESULTS_MSG:
                     await bot.send_message(chat_id=LOG_CHANNEL, text=(script.NORSLTS.format(reqstr.id, reqstr.mention, movie)))
                 k = await query.message.edit(script.MVE_NT_FND)
-                await asyncio.sleep(17)
+                await asyncio.sleep(10)
                 await k.delete()
 
 @Client.on_callback_query()
@@ -591,6 +598,7 @@ async def cb_handler(client: Client, query: CallbackQuery):
             return await query.answer(script.ALRT_TXT.format(query.from_user.first_name), show_alert=True)
         
         await query.answer(url=f"https://t.me/{temp.U_NAME}?start=all_{key}_{pre}")
+        
 
     elif query.data.startswith("killfilesdq"):
         ident, keyword = query.data.split("#")
@@ -1012,13 +1020,13 @@ async def auto_filter(client, msg, spoll=False):
 
     text = ""
     for file in files:
-        text += f"[[{get_size(file.file_size)}]-{file.file_name}](http://t.me/{temp.U_NAME}?start=PIRO_{file.file_id})\n\n"
+        text += f"🔖[[{get_size(file.file_size)}]{file.file_name}](http://t.me/{temp.U_NAME}?start=PIRO_{file.file_id})\n\n"
 
     # if settings["button"]:
     #     btn = [
     #         [
     #             InlineKeyboardButton(
-    #                 text=f"{get_size(file.file_size)}-{file.file_name}", callback_data=f'{pre}#{file.file_id}'
+    #                 text=f"🔖{get_size(file.file_size)}🔮{file.file_name}", callback_data=f'{pre}#{file.file_id}'
     #             ),
     #         ]
     #         for file in files
@@ -1075,6 +1083,11 @@ async def auto_filter(client, msg, spoll=False):
                 InlineKeyboardButton(f'😇 Info', 'tips'),
                 InlineKeyboardButton(f'📝 𝖳𝗂𝗉𝗌', 'info')
             ])
+            
+                      
+    btn.insert(0, [
+        InlineKeyboardButton(f'🎬 {search} 🎬', 'rkbtn')
+    ])
     btn.insert(2, [
         InlineKeyboardButton("📤 𝖲𝖾𝗇𝖽 𝖠𝗅𝗅 𝖥𝗂𝗅𝖾𝗌 📤", callback_data=f"send_all#{req}#{key}#{pre}")
     ])
@@ -1191,7 +1204,7 @@ async def auto_filter(client, msg, spoll=False):
                     await fek.delete()
                     await message.delete()
     else:
-        fuk = await message.reply_text(cap+"\n\n"+text, reply_markup=InlineKeyboardMarkup(btn))
+        fuk = await message.reply_text(cap+"\n\n"+text, reply_markup=InlineKeyboardMarkup(btn),disable_web_page_preview=True)
         try:
             if settings['auto_delete']:
                 await asyncio.sleep(600)
@@ -1233,14 +1246,14 @@ async def advantage_spell_chok(client, msg):
             caption=script.I_CUDNT.format(mv_rqst),
             reply_markup=InlineKeyboardMarkup(button)
         )
-        await asyncio.sleep(21)
+        await asyncio.sleep(30)
         await k.delete()
         return
     movielist = []
     if not movies:
         reqst_gle = mv_rqst.replace(" ", "+")
         button = [[
-                   InlineKeyboardButton("𝖦𝗈𝗈𝗀𝗅𝖾 🔎", url=f"https://www.google.com/search?q={reqst_gle}")
+                   InlineKeyboardButton("Gᴏᴏɢʟᴇ", url=f"https://www.google.com/search?q={reqst_gle}")
         ]]
         if NO_RESULTS_MSG:
             await client.send_message(chat_id=LOG_CHANNEL, text=(script.NORSLTS.format(reqstr.id, reqstr.mention, mv_rqst)))
@@ -1272,14 +1285,14 @@ async def advantage_spell_chok(client, msg):
     )
     try:
         if settings['auto_delete']:
-            await asyncio.sleep(21)
+            await asyncio.sleep(600)
             await spell_check_del.delete()
     except KeyError:
             grpid = await active_connection(str(msg.from_user.id))
             await save_group_settings(grpid, 'auto_delete', True)
             settings = await get_settings(msg.chat.id)
             if settings['auto_delete']:
-                await asyncio.sleep(21)
+                await asyncio.sleep(600)
                 await spell_check_del.delete()
 
 async def manual_filters(client, message, text=False):
